@@ -159,3 +159,54 @@ Prepare an implementation plan that includes:
 Present the implementation plan for review and feedback.
 
 Wait for approval before generating any implementation code.
+
+
+# 5. Employee Module Implementation Plan (TDD)
+
+Analyze the project requirements, database schema, and existing codebase before proceeding. We will implement the **Employee** module using a **Test-Driven Development (TDD)** approach.
+
+## Instructions
+
+* Do **not** generate any implementation code yet.
+* Review the requirements, database schema, and current architecture before proposing a solution.
+* If the existing Prisma schema requires changes (e.g., adding missing employee fields such as **email**), identify and justify those changes before implementation.
+* The `Employee` entity should include essential employee information such as **email**, and the **employeeId** should be generated **sequentially** using a predefined format (to be proposed and agreed upon during the planning phase).
+* Do **not** make assumptions. If any requirement or design decision is ambiguous, ask clarifying questions before proceeding.
+
+## Deliverables
+
+Prepare a detailed implementation plan covering:
+
+* Module responsibilities
+* Required Prisma schema updates (if any)
+* API endpoints
+* Request and response contracts
+* Validation rules
+* Employee ID generation strategy and format
+* Dependencies and interactions with other modules
+* Error handling strategy
+* Edge cases
+
+## Unit Testing Strategy
+
+Provide a comprehensive list of **all unit test cases**, including:
+
+* Positive scenarios
+* Negative scenarios
+* Validation scenarios
+* Edge cases
+
+Ensure the proposed tests are **fast, deterministic, maintainable, and cover the core functionality**.
+
+## Review Process
+
+Present the implementation plan and complete test suite for review and feedback.
+
+**Do not generate any tests or implementation code until the plan and test cases have been reviewed, finalized, and approved.**
+
+After approval:
+
+1. Write the unit tests first.
+2. Review the tests.
+3. Implement the minimum code required to satisfy the tests.
+4. Refactor while ensuring all tests continue to pass.
