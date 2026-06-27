@@ -6,6 +6,8 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { CreateSalaryRecordDto } from './dto/create-salary-record.dto';
 import { validate } from 'class-validator';
+import { EmploymentStatus } from './enums/employment-status.enum';
+import { EmploymentType } from './enums/employment-type.enum';
 
 describe('EmployeesController', () => {
   let controller: EmployeesController;
@@ -49,6 +51,8 @@ describe('EmployeesController', () => {
         departmentId: 'dept-id',
         roleId: 'role-id',
         countryId: 'country-id',
+        status: EmploymentStatus.ACTIVE,
+        type: EmploymentType.FULL_TIME,
         salary: 5000,
       };
       await controller.create(dto);
@@ -67,7 +71,11 @@ describe('EmployeesController', () => {
     });
 
     it('should call update', async () => {
-      const dto: UpdateEmployeeDto = { name: 'Jane Doe' };
+      const dto: UpdateEmployeeDto = {
+        name: 'Jane Doe',
+        status: EmploymentStatus.DEACTIVE,
+        type: EmploymentType.CONTRACTOR,
+      };
       await controller.update('1', dto);
       expect(service.update).toHaveBeenCalledWith('1', dto);
     });
@@ -110,6 +118,8 @@ describe('EmployeesController', () => {
       expect(errorProperties).toContain('salary');
       expect(errorProperties).toContain('roleId');
       expect(errorProperties).toContain('countryId');
+      expect(errorProperties).toContain('status');
+      expect(errorProperties).toContain('type');
     });
 
     it('should reject CreateSalaryRecordDto with invalid fields', async () => {
@@ -123,6 +133,18 @@ describe('EmployeesController', () => {
       const errorProperties = errors.map((e) => e.property);
       expect(errorProperties).toContain('amount');
       expect(errorProperties).toContain('effectiveDate');
+    });
+
+    it('should reject UpdateEmployeeDto with missing required fields', async () => {
+      const dto = new UpdateEmployeeDto();
+      // Omitting strictly required status and type
+
+      const errors = await validate(dto);
+      expect(errors.length).toBeGreaterThan(0);
+
+      const errorProperties = errors.map((e) => e.property);
+      expect(errorProperties).toContain('status');
+      expect(errorProperties).toContain('type');
     });
   });
 });

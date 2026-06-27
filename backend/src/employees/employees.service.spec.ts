@@ -8,6 +8,8 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
+import { EmploymentStatus } from './enums/employment-status.enum';
+import { EmploymentType } from './enums/employment-type.enum';
 
 describe('EmployeesService', () => {
   let service: EmployeesService;
@@ -31,9 +33,9 @@ describe('EmployeesService', () => {
       findFirst: jest.fn(),
       findMany: jest.fn(),
     },
-    department: { count: jest.fn() },
-    role: { count: jest.fn() },
-    country: { count: jest.fn() },
+    department: { count: jest.fn(), findUnique: jest.fn() },
+    role: { count: jest.fn(), findUnique: jest.fn() },
+    country: { count: jest.fn(), findUnique: jest.fn() },
   };
 
   beforeEach(async () => {
@@ -63,6 +65,8 @@ describe('EmployeesService', () => {
       departmentId: 'dept-1',
       roleId: 'role-1',
       countryId: 'country-1',
+      status: EmploymentStatus.ACTIVE,
+      type: EmploymentType.FULL_TIME,
       salary: 5000,
     };
 
@@ -93,6 +97,8 @@ describe('EmployeesService', () => {
           employeeId: 'EMP-00001',
           name: 'John',
           email: 'john@example.com',
+          status: EmploymentStatus.ACTIVE,
+          type: EmploymentType.FULL_TIME,
         }),
       });
       expect(result).toEqual(expectedEmployee);
@@ -161,6 +167,79 @@ describe('EmployeesService', () => {
         effectiveDate: today,
       });
       expect(result).toEqual(newRecord);
+    });
+  });
+
+  describe('update', () => {
+    const existingEmployee = {
+      id: '1',
+      email: 'old@example.com',
+      departmentId: 'dept-1',
+      roleId: 'role-1',
+      countryId: 'country-1',
+    };
+
+    it('should throw NotFoundException if employee not found', async () => {
+      mockPrismaService.employee.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.update('1', {
+          status: EmploymentStatus.DEACTIVE,
+          type: EmploymentType.CONTRACTOR,
+        }) as any,
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('should throw ConflictException if new email is already in use', async () => {
+      mockPrismaService.employee.findUnique.mockResolvedValue(existingEmployee);
+      // New email is different, and count > 0 implies someone else uses it
+      mockPrismaService.employee.count.mockResolvedValue(1);
+
+      await expect(
+        service.update('1', {
+          email: 'new@example.com',
+          status: EmploymentStatus.ACTIVE,
+          type: EmploymentType.PART_TIME,
+        } as any),
+      ).rejects.toThrow(ConflictException);
+    });
+
+    it('should throw NotFoundException if department is invalid', async () => {
+      mockPrismaService.employee.findUnique.mockResolvedValue(existingEmployee);
+      mockPrismaService.department.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.update('1', {
+          departmentId: 'invalid-dept',
+          status: EmploymentStatus.ACTIVE,
+          type: EmploymentType.FULL_TIME,
+        } as any),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('should successfully update an employee', async () => {
+      mockPrismaService.employee.findUnique.mockResolvedValue(existingEmployee);
+      // Email unchanged or changed safely
+      mockPrismaService.employee.count.mockResolvedValue(0);
+      mockPrismaService.department.findUnique.mockResolvedValue({
+        id: 'new-dept',
+      });
+
+      const updatedDto = {
+        departmentId: 'new-dept',
+        status: EmploymentStatus.DEACTIVE,
+        type: EmploymentType.CONTRACTOR,
+      };
+      const expectedResult = { ...existingEmployee, ...updatedDto };
+      mockPrismaService.employee.update.mockResolvedValue(expectedResult);
+
+      const result = await service.update('1', updatedDto);
+
+      expect(mockPrismaService.employee.update).toHaveBeenCalledWith({
+        where: { id: '1' },
+        data: updatedDto,
+      });
+      expect(result).toEqual(expectedResult);
     });
   });
 });

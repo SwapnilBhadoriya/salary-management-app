@@ -6,7 +6,10 @@ import {
   IsEmail,
   IsUUID,
   IsOptional,
+  IsEnum,
 } from 'class-validator';
+import { EmploymentStatus } from '../enums/employment-status.enum';
+import { EmploymentType } from '../enums/employment-type.enum';
 
 export class UpdateEmployeeDto {
   @IsOptional()
@@ -23,6 +26,14 @@ export class UpdateEmployeeDto {
   @IsOptional()
   @IsUUID()
   departmentId?: string;
+
+  @IsNotEmpty()
+  @IsEnum(EmploymentStatus)
+  status: EmploymentStatus;
+
+  @IsNotEmpty()
+  @IsEnum(EmploymentType)
+  type: EmploymentType;
 
   @IsOptional()
   @IsUUID()

@@ -9,9 +9,12 @@ import {
   IsPositive,
   IsOptional,
   IsDate,
+  IsEnum,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { IsNotPastDate } from '../../common/decorators/is-not-past-date.decorator';
+import { EmploymentStatus } from '../enums/employment-status.enum';
+import { EmploymentType } from '../enums/employment-type.enum';
 
 export class CreateEmployeeDto {
   @IsString()
@@ -25,6 +28,14 @@ export class CreateEmployeeDto {
 
   @IsUUID()
   departmentId: string;
+
+  @IsNotEmpty()
+  @IsEnum(EmploymentStatus)
+  status: EmploymentStatus;
+
+  @IsNotEmpty()
+  @IsEnum(EmploymentType)
+  type: EmploymentType;
 
   @IsUUID()
   roleId: string;
