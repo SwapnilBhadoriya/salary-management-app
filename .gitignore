@@ -5,10 +5,16 @@ Thumbs.db
 # Backend
 backend/node_modules/
 backend/dist/
-backend/*.db
-backend/*.db-shm
-backend/*.db-wal
 backend/.env
+
+# SQLite database files
+backend/**/*.db
+backend/**/*.db-journal
+backend/**/*.db-wal
+backend/**/*.db-shm
+
+# Keep generated client files out of version control
+backend/src/generated/prisma
 
 # Frontend
 frontend/node_modules/

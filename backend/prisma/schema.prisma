@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  moduleFormat    = "cjs"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Department {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  employees Employee[]
+  createdAt DateTime   @default(now())
+}
+
+model Role {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  employees Employee[]
+  createdAt DateTime   @default(now())
+}
+
+model Country {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  code      String     @unique // e.g., "US", "IN"
+  employees Employee[]
+  createdAt DateTime   @default(now())
+}
+
+model Employee {
+  id            String         @id @default(uuid())
+  employeeId    String         @unique // Unique business ID for search
+  name          String
+  departmentId  String
+  department    Department     @relation(fields: [departmentId], references: [id])
+  roleId        String
+  role          Role           @relation(fields: [roleId], references: [id])
+  countryId     String
+  country       Country        @relation(fields: [countryId], references: [id])
+  salaryRecords SalaryRecord[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([name])
+  @@index([departmentId])
+  @@index([roleId])
+  @@index([countryId])
+}
+
+model SalaryRecord {
+  id            String   @id @default(uuid())
+  employeeId    String
+  employee      Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  amount        Decimal  // Base monthly salary in USD
+  effectiveDate DateTime // Date from which the salary is effective
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Ensures only one salary rate exists per employee per effective date
+  @@unique([employeeId, effectiveDate])
+  // Index for fast dynamic retrieval of active salary (finding max effectiveDate <= targetDate)
+  @@index([employeeId, effectiveDate(sort: Desc)])
+}
+
