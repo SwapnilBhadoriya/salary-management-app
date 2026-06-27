@@ -31,6 +31,8 @@ export class EmployeesService {
       countryId,
       salary,
       effectiveDate,
+      status,
+      type,
     } = createEmployeeDto;
 
     if (salary <= 0) {
@@ -80,6 +82,8 @@ export class EmployeesService {
           employeeId,
           name,
           email,
+          status,
+          type,
           departmentId,
           roleId,
           countryId,
@@ -113,6 +117,8 @@ export class EmployeesService {
     if (query.departmentId) where.departmentId = query.departmentId;
     if (query.roleId) where.roleId = query.roleId;
     if (query.countryId) where.countryId = query.countryId;
+    if (query.status) where.status = query.status;
+    if (query.type) where.type = query.type;
 
     const [total, employees] = await Promise.all([
       this.prisma.employee.count({ where }),

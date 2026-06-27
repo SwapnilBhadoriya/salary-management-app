@@ -45,6 +45,8 @@ model Employee {
   employeeId    String         @unique // Unique business ID for search
   email         String         @unique
   name          String
+  status        String         @default("ACTIVE")
+  type          String         @default("FULL_TIME")
   departmentId  String
   department    Department     @relation(fields: [departmentId], references: [id])
   roleId        String
