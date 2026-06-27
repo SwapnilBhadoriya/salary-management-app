@@ -73,3 +73,56 @@ After the plan has been reviewed and approved, proceed iteratively by:
 2. Reviewing the tests.
 3. Implementing the minimum code required to satisfy the tests.
 4. Refactoring where appropriate while ensuring all tests continue to pass.
+
+
+
+# 3. Role Module Implementation Plan (TDD)
+
+## Objective
+
+Analyze the project requirements, database schema, and existing codebase before proceeding with the implementation of the **Role** module.
+
+The module will be developed using a **Test-Driven Development (TDD)** approach.
+
+## Instructions
+
+* Review the project requirements, database schema, and current project structure before proposing any solution.
+* Do **not** write any implementation code at this stage.
+* Do **not** make assumptions. If any requirement or design decision is ambiguous or missing, ask clarifying questions before proceeding.
+* Keep the proposed solution aligned with the project scope and existing architecture.
+
+## Deliverables
+
+Prepare a detailed implementation plan that includes:
+
+* Module responsibilities
+* API endpoints
+* Request and response contracts
+* Validation rules
+* Dependencies and interactions with other modules
+* Error handling strategy
+* Edge cases
+* Recommended project structure (if applicable)
+
+## Unit Testing Strategy
+
+Create a comprehensive unit testing plan that:
+
+* Covers the core functionality of the module
+* Produces tests that are fast, deterministic, and easy to understand
+* Promotes good code structure, readability, and maintainability
+* Identifies positive, negative, validation, and edge-case scenarios
+* Recommends the order in which the tests should be implemented following TDD
+
+## Review Process
+
+Present the implementation plan and proposed unit test suite for review and feedback.
+
+Wait for approval before generating any tests or implementation code.
+
+After the plan has been reviewed and approved, proceed iteratively by:
+
+1. Writing the unit tests first.
+2. Reviewing the tests.
+3. Implementing the minimum code required to satisfy the tests.
+4. Refactoring where appropriate while ensuring all tests continue to pass.
