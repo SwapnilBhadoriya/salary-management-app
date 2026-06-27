@@ -25,35 +25,35 @@ None. The design constraints and specifications align directly with the patterns
 
 ### Role Module
 
-#### [NEW] [create-role.dto.ts](file:///home/swapnil/Desktop/salary-management-app/backend/src/roles/dto/create-role.dto.ts)
+#### [NEW] [create-role.dto.ts](backend/src/roles/dto/create-role.dto.ts)
 * DTO containing validation decorators (`@IsString`, `@IsNotEmpty`, `@MinLength`, `@MaxLength`) for role creation.
 
-#### [NEW] [update-role.dto.ts](file:///home/swapnil/Desktop/salary-management-app/backend/src/roles/dto/update-role.dto.ts)
+#### [NEW] [update-role.dto.ts](backend/src/roles/dto/update-role.dto.ts)
 * DTO containing validation decorators for role updates.
 
-#### [NEW] [roles.service.ts](file:///home/swapnil/Desktop/salary-management-app/backend/src/roles/roles.service.ts)
+#### [NEW] [roles.service.ts](backend/src/roles/roles.service.ts)
 * Implements service business logic:
   * Trim incoming names.
   * In-memory case-insensitive uniqueness check (compatible with SQLite & PostgreSQL).
   * Referential integrity check on delete (validate `employee.count({ where: { roleId } })` is 0).
 
-#### [NEW] [roles.service.spec.ts](file:///home/swapnil/Desktop/salary-management-app/backend/src/roles/roles.service.spec.ts)
+#### [NEW] [roles.service.spec.ts](backend/src/roles/roles.service.spec.ts)
 * Service unit tests running in isolation (mocking `PrismaService`):
   * **Create Role**: Successful trimmed creation, conflict error on duplicate names (case-insensitive).
   * **Read Roles**: Retrieval of all sorted alphabetically, retrieval by ID, not found error on invalid ID.
   * **Update Role**: Successful trimmed name update, not found error on invalid ID, conflict error on name clash with other role.
   * **Delete Role**: Successful deletion, not found error on invalid ID, conflict error on active employee association.
 
-#### [NEW] [roles.controller.ts](file:///home/swapnil/Desktop/salary-management-app/backend/src/roles/roles.controller.ts)
+#### [NEW] [roles.controller.ts](backend/src/roles/roles.controller.ts)
 * REST controller mapping endpoints (`POST /roles`, `GET /roles`, `GET /roles/:id`, `PATCH /roles/:id`, `DELETE /roles/:id`).
 
-#### [NEW] [roles.controller.spec.ts](file:///home/swapnil/Desktop/salary-management-app/backend/src/roles/roles.controller.spec.ts)
+#### [NEW] [roles.controller.spec.ts](backend/src/roles/roles.controller.spec.ts)
 * Controller unit tests verifying route handler invocation, status codes, and DTO validation rules.
 
-#### [NEW] [roles.module.ts](file:///home/swapnil/Desktop/salary-management-app/backend/src/roles/roles.module.ts)
+#### [NEW] [roles.module.ts](backend/src/roles/roles.module.ts)
 * Wire controllers and services under NestJS.
 
-#### [MODIFY] [app.module.ts](file:///home/swapnil/Desktop/salary-management-app/backend/src/app.module.ts)
+#### [MODIFY] [app.module.ts](backend/src/app.module.ts)
 * Register `RolesModule` in the root NestJS module.
 
 ---
