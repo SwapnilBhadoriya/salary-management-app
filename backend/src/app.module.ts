@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { DepartmentsModule } from './departments/departments.module';
 import { RolesModule } from './roles/roles.module';
+import { CountriesModule } from './countries/countries.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { RolesModule } from './roles/roles.module';
     PrismaModule,
     DepartmentsModule,
     RolesModule,
+    CountriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

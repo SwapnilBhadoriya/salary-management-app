@@ -126,3 +126,36 @@ After the plan has been reviewed and approved, proceed iteratively by:
 2. Reviewing the tests.
 3. Implementing the minimum code required to satisfy the tests.
 4. Refactoring where appropriate while ensuring all tests continue to pass.
+
+
+# 4. Country Module Implementation Plan
+
+## Objective
+
+Analyze the project requirements, database schema, and existing codebase before proceeding with the implementation of the **Country** module.
+
+Countries are treated as **reference (master) data** and should not have CRUD operations.
+
+## Instructions
+
+* Review the project requirements, database schema, and current project structure before proposing a solution.
+* Do **not** write any implementation code at this stage.
+* Do **not** make assumptions. If any requirement or design decision is ambiguous or missing, ask clarifying questions before proceeding.
+* Follow NestJS and Prisma best practices.
+
+## Deliverables
+
+Prepare an implementation plan that includes:
+
+* A lightweight read-only Country module.
+* An idempotent seeding strategy for an initial set of 5–6 countries.
+* A seeding approach that avoids duplicates, preserves existing records, and inserts only newly added countries on subsequent runs.
+* A simple `GET /countries` API for frontend dropdowns.
+* The recommended project structure and Prisma seeding approach.
+* Any required package scripts or configuration updates.
+
+## Review Process
+
+Present the implementation plan for review and feedback.
+
+Wait for approval before generating any implementation code.

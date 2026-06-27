@@ -84,7 +84,7 @@ erDiagram
 
 ### Backend Components
 
-#### [MODIFY] [schema.prisma](file:///home/swapnil/Desktop/salary-management-app/backend/prisma/schema.prisma)
+#### [MODIFY] [schema.prisma]
 
 Update the schema to define the models:
 * `Department`
