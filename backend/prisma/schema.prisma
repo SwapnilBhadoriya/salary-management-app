@@ -35,9 +35,15 @@ model Country {
   createdAt DateTime   @default(now())
 }
 
+model Sequence {
+  name  String @id
+  value Int    @default(0)
+}
+
 model Employee {
   id            String         @id @default(uuid())
   employeeId    String         @unique // Unique business ID for search
+  email         String         @unique
   name          String
   departmentId  String
   department    Department     @relation(fields: [departmentId], references: [id])
