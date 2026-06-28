@@ -1,0 +1,492 @@
+
+<style>
+.ds-section { margin: 0 0 2.5rem; }
+.ds-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin: 0 0 10px; }
+.ds-title { font-size: 18px; font-weight: 500; color: var(--text-primary); margin: 0 0 4px; }
+.ds-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 16px; }
+.token-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.token-card { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 8px; overflow: hidden; }
+.token-swatch { height: 48px; width: 100%; }
+.token-info { padding: 8px 10px; }
+.token-name { font-size: 12px; font-weight: 500; color: var(--text-primary); margin: 0 0 2px; }
+.token-value { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); margin: 0; }
+.type-row { display: flex; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { width: 140px; flex-shrink: 0; }
+.type-meta-name { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+.type-meta-val { font-size: 11px; color: var(--text-muted); }
+.space-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
+.space-bar { background: var(--bg-accent); border-radius: 2px; height: 8px; flex-shrink: 0; }
+.space-label { font-size: 12px; color: var(--text-secondary); font-family: var(--font-mono); width: 48px; }
+.space-use { font-size: 12px; color: var(--text-muted); }
+.radius-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.radius-box { background: var(--surface-1); border: 0.5px solid var(--border-strong); width: 56px; height: 40px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; }
+.radius-label { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+.shadow-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.shadow-box { background: var(--surface-2); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--text-secondary); }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 500; }
+.badge i { font-size: 12px; }
+.state-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.state-box { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 8px; padding: 10px 8px; text-align: center; }
+.state-name { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+.nav-mock { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 8px; overflow: hidden; }
+.nav-top { display: flex; align-items: center; padding: 0 16px; height: 52px; border-bottom: 0.5px solid var(--border); gap: 8px; }
+.nav-logo { font-size: 14px; font-weight: 500; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+.nav-logo-mark { width: 28px; height: 28px; background: var(--bg-accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.nav-logo-mark i { color: var(--text-accent); font-size: 16px; }
+.nav-spacer { flex: 1; }
+.nav-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-success); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: var(--text-success); }
+.nav-body { display: flex; min-height: 200px; }
+.nav-sidebar { width: 180px; border-right: 0.5px solid var(--border); padding: 12px 8px; display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 6px; font-size: 13px; color: var(--text-secondary); cursor: pointer; }
+.nav-item.active { background: var(--bg-accent); color: var(--text-accent); font-weight: 500; }
+.nav-item i { font-size: 16px; }
+.nav-content { flex: 1; padding: 16px; }
+.metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.metric-card { background: var(--surface-1); border-radius: 6px; padding: 10px 12px; }
+.metric-val { font-size: 20px; font-weight: 500; color: var(--text-primary); }
+.metric-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.table-mock { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 6px; overflow: hidden; }
+.table-mock table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+.table-mock th { padding: 8px 10px; text-align: left; font-size: 11px; font-weight: 500; color: var(--text-muted); border-bottom: 0.5px solid var(--border); background: var(--surface-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.table-mock td { padding: 10px 10px; color: var(--text-primary); border-bottom: 0.5px solid var(--border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.table-mock tr:last-child td { border-bottom: none; }
+.table-mock tr:hover td { background: var(--surface-1); }
+.emp-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--bg-pro); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; color: var(--text-pro); vertical-align: middle; margin-right: 6px; }
+.pill { display: inline-block; padding: 2px 7px; border-radius: 99px; font-size: 11px; font-weight: 500; }
+.pill-active { background: var(--bg-success); color: var(--text-success); }
+.pill-inactive { background: var(--surface-1); color: var(--text-muted); border: 0.5px solid var(--border); }
+.pill-ft { background: var(--bg-accent); color: var(--text-accent); }
+.pill-ct { background: var(--bg-warning); color: var(--text-warning); }
+.form-mock { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-field { display: flex; flex-direction: column; gap: 4px; }
+.form-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+.form-input { padding: 7px 10px; border: 0.5px solid var(--border-strong); border-radius: 6px; background: var(--surface-2); font-size: 13px; color: var(--text-primary); font-family: var(--font-sans); }
+.form-input:focus { outline: none; border-color: var(--border-accent); box-shadow: 0 0 0 3px var(--bg-accent); }
+.form-hint { font-size: 11px; color: var(--text-muted); }
+.form-error { font-size: 11px; color: var(--text-danger); }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 0.5px solid; font-family: var(--font-sans); }
+.btn-primary { background: var(--text-primary); color: var(--surface-2); border-color: var(--text-primary); }
+.btn-secondary { background: transparent; color: var(--text-primary); border-color: var(--border-strong); }
+.btn-ghost { background: transparent; color: var(--text-secondary); border-color: transparent; }
+.btn-danger { background: var(--bg-danger); color: var(--text-danger); border-color: var(--border-danger); }
+.ia-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.ia-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 0.5px solid var(--border); border-radius: 6px; font-size: 12px; color: var(--text-secondary); background: var(--surface-2); }
+.ia-chip i { font-size: 14px; color: var(--text-muted); }
+.ia-chip.page { border-color: var(--border-accent); color: var(--text-accent); background: var(--bg-accent); }
+.ia-arrow { font-size: 12px; color: var(--text-muted); align-self: center; }
+.divider { border: none; border-top: 0.5px solid var(--border); margin: 2rem 0; }
+.token-var { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+.principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.principle-card { background: var(--surface-1); border-radius: 8px; padding: 14px 16px; border: 0.5px solid var(--border); }
+.principle-icon { font-size: 18px; color: var(--text-accent); margin-bottom: 6px; }
+.principle-name { font-size: 13px; font-weight: 500; color: var(--text-primary); margin: 0 0 4px; }
+.principle-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin: 0; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.breakpoint-row { display: flex; flex-direction: column; gap: 6px; }
+.bp-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; background: var(--surface-1); border-radius: 6px; }
+.bp-size { font-size: 12px; font-family: var(--font-mono); color: var(--text-accent); width: 80px; flex-shrink: 0; }
+.bp-name { font-size: 12px; font-weight: 500; color: var(--text-primary); width: 90px; flex-shrink: 0; }
+.bp-bar-wrap { flex: 1; background: var(--border); border-radius: 2px; height: 4px; }
+.bp-bar { background: var(--text-accent); border-radius: 2px; height: 4px; }
+.bp-layout { font-size: 11px; color: var(--text-muted); width: 100px; text-align: right; }
+.a11y-row { display: flex; flex-direction: column; gap: 6px; }
+.a11y-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; background: var(--surface-1); border-radius: 6px; }
+.a11y-icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+.a11y-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.a11y-text strong { color: var(--text-primary); font-weight: 500; }
+</style>
+
+<h2 class="sr-only">ACME Salary Management System — Complete Design System</h2>
+
+<div class="ds-section">
+  <p class="ds-label">Design system</p>
+  <p class="ds-title">ACME Salary Management</p>
+  <p class="ds-sub">Clean · minimal · enterprise-grade · comfort-first · light + dark</p>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Design principles</p>
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-icon"><i class="ti ti-eye" aria-hidden="true"></i></div>
+      <p class="principle-name">Clarity over cleverness</p>
+      <p class="principle-desc">Every element earns its place. No decorative chrome. Data is the UI — everything else recedes.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon"><i class="ti ti-breathing-space" aria-hidden="true"></i></div>
+      <p class="principle-name">Comfort at scale</p>
+      <p class="principle-desc">10,000 rows demands breathing room. Generous row height, clear hierarchy, eyes don't strain after 30 minutes.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon"><i class="ti ti-adjustments-horizontal" aria-hidden="true"></i></div>
+      <p class="principle-name">Progressive disclosure</p>
+      <p class="principle-desc">List → profile → history. Actions surface when relevant. Nothing competes for attention it hasn't earned.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon"><i class="ti ti-lock" aria-hidden="true"></i></div>
+      <p class="principle-name">Trustworthy by default</p>
+      <p class="principle-desc">Compensation data is sensitive. Conservative palette, no playfulness, every action is explicit and reversible.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Color palette — semantic tokens</p>
+  <p class="ds-sub">All colors adapt automatically in light and dark mode via CSS variables.</p>
+
+  <p style="font-size:12px;font-weight:500;color:var(--text-secondary);margin:0 0 8px">Surface scale</p>
+  <div class="token-grid" style="margin-bottom:16px">
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--surface-0)"></div>
+      <div class="token-info"><p class="token-name">Page canvas</p><p class="token-value">--surface-0</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--surface-1)"></div>
+      <div class="token-info"><p class="token-name">Subtle card</p><p class="token-value">--surface-1</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--surface-2)"></div>
+      <div class="token-info"><p class="token-name">Card / panel</p><p class="token-value">--surface-2</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--surface-3)"></div>
+      <div class="token-info"><p class="token-name">Popover</p><p class="token-value">--surface-3</p></div>
+    </div>
+  </div>
+
+  <p style="font-size:12px;font-weight:500;color:var(--text-secondary);margin:0 0 8px">Semantic role colors</p>
+  <div class="token-grid" style="margin-bottom:16px">
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--bg-accent)"></div>
+      <div class="token-info"><p class="token-name">Accent / primary</p><p class="token-value">--bg-accent</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--bg-success)"></div>
+      <div class="token-info"><p class="token-name">Success / active</p><p class="token-value">--bg-success</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--bg-warning)"></div>
+      <div class="token-info"><p class="token-name">Warning / contractor</p><p class="token-value">--bg-warning</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--bg-danger)"></div>
+      <div class="token-info"><p class="token-name">Danger / inactive</p><p class="token-value">--bg-danger</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--bg-pro)"></div>
+      <div class="token-info"><p class="token-name">Pro / highlight</p><p class="token-value">--bg-pro</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--bg-neutral)"></div>
+      <div class="token-info"><p class="token-name">Neutral</p><p class="token-value">--bg-neutral</p></div>
+    </div>
+  </div>
+
+  <p style="font-size:12px;font-weight:500;color:var(--text-secondary);margin:0 0 8px">Text colors</p>
+  <div class="token-grid">
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--text-primary);opacity:0.12;border-bottom:0.5px solid var(--border)"></div>
+      <div class="token-info"><p class="token-name" style="color:var(--text-primary)">Primary</p><p class="token-value">--text-primary</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--text-secondary);opacity:0.12;border-bottom:0.5px solid var(--border)"></div>
+      <div class="token-info"><p class="token-name" style="color:var(--text-secondary)">Secondary</p><p class="token-value">--text-secondary</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--text-muted);opacity:0.12;border-bottom:0.5px solid var(--border)"></div>
+      <div class="token-info"><p class="token-name" style="color:var(--text-muted)">Muted</p><p class="token-value">--text-muted</p></div>
+    </div>
+    <div class="token-card">
+      <div class="token-swatch" style="background:var(--text-accent);opacity:0.12;border-bottom:0.5px solid var(--border)"></div>
+      <div class="token-info"><p class="token-name" style="color:var(--text-accent)">Accent</p><p class="token-value">--text-accent</p></div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Typography scale</p>
+  <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:8px;overflow:hidden;padding:0 16px">
+    <div class="type-row">
+      <div class="type-meta"><span class="type-meta-name">display</span><br><span class="type-meta-val">30px / 500</span></div>
+      <span style="font-size:30px;font-weight:500;color:var(--text-primary)">10,247 employees</span>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="type-meta-name">heading-lg</span><br><span class="type-meta-val">22px / 500</span></div>
+      <span style="font-size:22px;font-weight:500;color:var(--text-primary)">Employee directory</span>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="type-meta-name">heading-md</span><br><span class="type-meta-val">18px / 500</span></div>
+      <span style="font-size:18px;font-weight:500;color:var(--text-primary)">Salary history</span>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="type-meta-name">heading-sm</span><br><span class="type-meta-val">15px / 500</span></div>
+      <span style="font-size:15px;font-weight:500;color:var(--text-primary)">Engineering · 2,340 employees</span>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="type-meta-name">body</span><br><span class="type-meta-val">14px / 400 / 1.6</span></div>
+      <span style="font-size:14px;color:var(--text-primary);line-height:1.6">All salary changes are recorded with an effective date and reason. Previous records are never overwritten.</span>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="type-meta-name">body-sm</span><br><span class="type-meta-val">13px / 400</span></div>
+      <span style="font-size:13px;color:var(--text-secondary)">Last updated by HR Manager on 14 Jun 2026</span>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="type-meta-name">caption</span><br><span class="type-meta-val">12px / 400</span></div>
+      <span style="font-size:12px;color:var(--text-muted)">Exchange rate: 1 INR = 0.012 USD · Rate as of Jan 2026</span>
+    </div>
+    <div class="type-row" style="border-bottom:none">
+      <div class="type-meta"><span class="type-meta-name">mono / data</span><br><span class="type-meta-val">13px mono</span></div>
+      <span style="font-size:13px;font-family:var(--font-mono);color:var(--text-primary)">$142,500 USD · EMP-00421</span>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">Salary amounts and employee IDs always render in <span style="font-family:var(--font-mono)">--font-mono</span> for alignment and scannability.</p>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Spacing scale</p>
+  <div style="display:flex;flex-direction:column;gap:4px">
+    <div class="space-row"><div class="space-bar" style="width:4px"></div><span class="space-label">4px</span><span class="space-use">Icon gap, tight inline</span></div>
+    <div class="space-row"><div class="space-bar" style="width:8px"></div><span class="space-label">8px</span><span class="space-use">Badge padding, form hint gap</span></div>
+    <div class="space-row"><div class="space-bar" style="width:12px"></div><span class="space-label">12px</span><span class="space-use">Card inner gap, button padding-x</span></div>
+    <div class="space-row"><div class="space-bar" style="width:16px"></div><span class="space-label">16px</span><span class="space-use">Table cell padding-x, sidebar item</span></div>
+    <div class="space-row"><div class="space-bar" style="width:24px"></div><span class="space-label">24px</span><span class="space-use">Card padding, section gap</span></div>
+    <div class="space-row"><div class="space-bar" style="width:32px"></div><span class="space-label">32px</span><span class="space-use">Page section spacing</span></div>
+    <div class="space-row"><div class="space-bar" style="width:48px"></div><span class="space-label">48px</span><span class="space-use">Page top padding, major section break</span></div>
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin:10px 0 0">Table row height: <strong style="color:var(--text-primary)">52px</strong> (comfort-first — breathing room for 10k rows). Header row: <strong style="color:var(--text-primary)">40px</strong>.</p>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Border radius</p>
+  <div class="radius-row">
+    <div style="text-align:center">
+      <div class="radius-box" style="border-radius:2px"><span class="radius-label">2px</span></div>
+      <p style="font-size:11px;color:var(--text-muted);margin:4px 0 0">Dividers</p>
+    </div>
+    <div style="text-align:center">
+      <div class="radius-box" style="border-radius:4px"><span class="radius-label">4px</span></div>
+      <p style="font-size:11px;color:var(--text-muted);margin:4px 0 0">Badges</p>
+    </div>
+    <div style="text-align:center">
+      <div class="radius-box" style="border-radius:6px"><span class="radius-label">6px</span></div>
+      <p style="font-size:11px;color:var(--text-muted);margin:4px 0 0">Buttons, inputs</p>
+    </div>
+    <div style="text-align:center">
+      <div class="radius-box" style="border-radius:8px"><span class="radius-label">8px</span></div>
+      <p style="font-size:11px;color:var(--text-muted);margin:4px 0 0">Cards, dropdowns</p>
+    </div>
+    <div style="text-align:center">
+      <div class="radius-box" style="border-radius:12px"><span class="radius-label">12px</span></div>
+      <p style="font-size:11px;color:var(--text-muted);margin:4px 0 0">Dialogs, panels</p>
+    </div>
+    <div style="text-align:center">
+      <div class="radius-box" style="border-radius:99px;width:56px"><span class="radius-label">full</span></div>
+      <p style="font-size:11px;color:var(--text-muted);margin:4px 0 0">Pills, avatars</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Component states & status badges</p>
+  <p style="font-size:12px;font-weight:500;color:var(--text-secondary);margin:0 0 10px">Employment status</p>
+  <div class="badge-row" style="margin-bottom:16px">
+    <span class="badge" style="background:var(--bg-success);color:var(--text-success)"><i class="ti ti-circle-filled" aria-hidden="true"></i> Active</span>
+    <span class="badge" style="background:var(--surface-1);color:var(--text-muted);border:0.5px solid var(--border)"><i class="ti ti-circle" aria-hidden="true"></i> Inactive</span>
+    <span class="badge" style="background:var(--bg-accent);color:var(--text-accent)">Full-time</span>
+    <span class="badge" style="background:var(--bg-warning);color:var(--text-warning)">Contractor</span>
+    <span class="badge" style="background:var(--bg-neutral);color:var(--text-secondary)">Part-time</span>
+    <span class="badge" style="background:var(--bg-pro);color:var(--text-pro)">Intern</span>
+  </div>
+  <p style="font-size:12px;font-weight:500;color:var(--text-secondary);margin:0 0 10px">Salary change types</p>
+  <div class="badge-row" style="margin-bottom:16px">
+    <span class="badge" style="background:var(--bg-success);color:var(--text-success)"><i class="ti ti-arrow-up" aria-hidden="true"></i> Promotion</span>
+    <span class="badge" style="background:var(--bg-accent);color:var(--text-accent)"><i class="ti ti-refresh" aria-hidden="true"></i> Annual review</span>
+    <span class="badge" style="background:var(--bg-neutral);color:var(--text-secondary)">Adjustment</span>
+    <span class="badge" style="background:var(--bg-pro);color:var(--text-pro)">Base hire</span>
+  </div>
+  <p style="font-size:12px;font-weight:500;color:var(--text-secondary);margin:0 0 10px">Button variants</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-primary" aria-label="Primary action"><i class="ti ti-plus" aria-hidden="true"></i> Add employee</button>
+    <button class="btn btn-secondary" aria-label="Secondary action"><i class="ti ti-download" aria-hidden="true"></i> Export CSV</button>
+    <button class="btn btn-ghost" aria-label="Ghost action"><i class="ti ti-filter" aria-hidden="true"></i> Filters</button>
+    <button class="btn btn-danger" aria-label="Danger action"><i class="ti ti-user-off" aria-hidden="true"></i> Deactivate</button>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Responsive breakpoints</p>
+  <div class="breakpoint-row">
+    <div class="bp-item"><span class="bp-size">≥ 1440px</span><span class="bp-name">Desktop wide</span><div class="bp-bar-wrap"><div class="bp-bar" style="width:100%"></div></div><span class="bp-layout">Sidebar + 3-col</span></div>
+    <div class="bp-item"><span class="bp-size">≥ 1024px</span><span class="bp-name">Desktop</span><div class="bp-bar-wrap"><div class="bp-bar" style="width:71%"></div></div><span class="bp-layout">Sidebar + 2-col</span></div>
+    <div class="bp-item"><span class="bp-size">≥ 768px</span><span class="bp-name">Tablet</span><div class="bp-bar-wrap"><div class="bp-bar" style="width:53%"></div></div><span class="bp-layout">Collapsed sidebar</span></div>
+    <div class="bp-item"><span class="bp-size">< 768px</span><span class="bp-name">Mobile</span><div class="bp-bar-wrap"><div class="bp-bar" style="width:30%"></div></div><span class="bp-layout">Bottom nav, stacked</span></div>
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">Primary target is 1280px+ desktop. HR managers use desktop. Tablet is supported; mobile is graceful degradation only.</p>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Navigation & information architecture</p>
+  <div class="ia-row">
+    <div class="ia-chip page"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</div>
+    <div class="ia-chip"><i class="ti ti-users" aria-hidden="true"></i> Employees</div>
+    <div class="ia-chip"><i class="ti ti-chart-bar" aria-hidden="true"></i> Analytics</div>
+    <div class="ia-chip"><i class="ti ti-settings" aria-hidden="true"></i> Settings</div>
+  </div>
+  <div class="ia-row">
+    <div class="ia-chip" style="margin-left:24px;font-size:11px"><i class="ti ti-list" aria-hidden="true"></i> Employee list</div>
+    <span class="ia-arrow">›</span>
+    <div class="ia-chip" style="font-size:11px"><i class="ti ti-user" aria-hidden="true"></i> Employee profile</div>
+    <span class="ia-arrow">›</span>
+    <div class="ia-chip" style="font-size:11px"><i class="ti ti-history" aria-hidden="true"></i> Salary history</div>
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin:10px 0 0">3-level hierarchy maximum. Breadcrumb navigation on all inner pages. No nested dropdowns in the sidebar.</p>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">App shell preview</p>
+  <div class="nav-mock">
+    <div class="nav-top">
+      <div class="nav-logo">
+        <div class="nav-logo-mark"><i class="ti ti-building-community" aria-hidden="true"></i></div>
+        ACME Payroll
+      </div>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-ghost" style="padding:4px 8px;font-size:12px"><i class="ti ti-moon" aria-hidden="true"></i></button>
+      <div class="nav-avatar" aria-label="HR Manager">HR</div>
+    </div>
+    <div class="nav-body">
+      <nav class="nav-sidebar" aria-label="Main navigation">
+        <div class="nav-item active" aria-current="page"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</div>
+        <div class="nav-item"><i class="ti ti-users" aria-hidden="true"></i> Employees</div>
+        <div class="nav-item"><i class="ti ti-chart-bar" aria-hidden="true"></i> Analytics</div>
+        <div style="flex:1"></div>
+        <div class="nav-item"><i class="ti ti-settings" aria-hidden="true"></i> Settings</div>
+      </nav>
+      <div class="nav-content">
+        <div class="metric-row">
+          <div class="metric-card"><div class="metric-val">10,247</div><div class="metric-lbl">Total employees</div></div>
+          <div class="metric-card"><div class="metric-val">9,891</div><div class="metric-lbl">Active</div></div>
+          <div class="metric-card"><div class="metric-val" style="font-family:var(--font-mono)">$94.2k</div><div class="metric-lbl">Avg salary (USD)</div></div>
+          <div class="metric-card"><div class="metric-val">12</div><div class="metric-lbl">Departments</div></div>
+        </div>
+        <div class="table-mock">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:28%">Employee</th>
+                <th style="width:18%">Department</th>
+                <th style="width:14%">Country</th>
+                <th style="width:16%">Salary (USD)</th>
+                <th style="width:12%">Type</th>
+                <th style="width:12%">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="emp-avatar" aria-hidden="true">PR</span>Priya Rajan</td>
+                <td>Engineering</td>
+                <td>India</td>
+                <td style="font-family:var(--font-mono)">$42,000</td>
+                <td><span class="pill pill-ft">Full-time</span></td>
+                <td><span class="pill pill-active">Active</span></td>
+              </tr>
+              <tr>
+                <td><span class="emp-avatar" style="background:var(--bg-warning);color:var(--text-warning)" aria-hidden="true">JM</span>James Miller</td>
+                <td>Product</td>
+                <td>USA</td>
+                <td style="font-family:var(--font-mono)">$138,000</td>
+                <td><span class="pill pill-ct">Contractor</span></td>
+                <td><span class="pill pill-active">Active</span></td>
+              </tr>
+              <tr>
+                <td><span class="emp-avatar" style="background:var(--bg-success);color:var(--text-success)" aria-hidden="true">AS</span>Aisha Suleiman</td>
+                <td>HR</td>
+                <td>UK</td>
+                <td style="font-family:var(--font-mono)">$71,500</td>
+                <td><span class="pill pill-ft">Full-time</span></td>
+                <td><span class="pill pill-inactive">Inactive</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Form patterns</p>
+  <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:8px;padding:16px">
+    <div class="form-mock">
+      <div class="form-field">
+        <label class="form-label" for="fn">First name</label>
+        <input class="form-input" type="text" id="fn" placeholder="e.g. Priya" value="Priya">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="ln">Last name</label>
+        <input class="form-input" type="text" id="ln" placeholder="e.g. Rajan" value="Rajan">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="em">Email</label>
+        <input class="form-input" type="email" id="em" placeholder="name@acme.com">
+        <span class="form-error"><i class="ti ti-alert-circle" aria-hidden="true" style="font-size:11px"></i> Enter a valid email address</span>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="sal">Annual salary</label>
+        <input class="form-input" type="text" id="sal" placeholder="e.g. 1400000">
+        <span class="form-hint">Enter in the employee's local currency</span>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">Labels above inputs always. No placeholder-as-label. Inline validation on blur, never on change. Error text in red below the field.</p>
+</div>
+
+<hr class="divider">
+
+<div class="ds-section">
+  <p class="ds-label">Accessibility guidelines</p>
+  <div class="a11y-row">
+    <div class="a11y-item">
+      <i class="ti ti-contrast" style="color:var(--text-accent)" aria-hidden="true"></i>
+      <p class="a11y-text"><strong>Color contrast:</strong> All text meets WCAG AA (4.5:1 body, 3:1 large). Salary amounts in mono font at 13px pass independently. Status is never conveyed by color alone — always paired with an icon or label.</p>
+    </div>
+    <div class="a11y-item">
+      <i class="ti ti-keyboard" style="color:var(--text-accent)" aria-hidden="true"></i>
+      <p class="a11y-text"><strong>Keyboard navigation:</strong> Full tab order through table rows, filter controls, and action buttons. Escape closes any open dialog. Arrow keys navigate within dropdowns and select menus.</p>
+    </div>
+    <div class="a11y-item">
+      <i class="ti ti-accessible" style="color:var(--text-accent)" aria-hidden="true"></i>
+      <p class="a11y-text"><strong>Screen reader support:</strong> All tables have <code>role="table"</code> with proper <code>aria-label</code>. Sort buttons announce sort direction. Loading states use <code>aria-live="polite"</code>. Avatars are <code>aria-hidden</code>.</p>
+    </div>
+    <div class="a11y-item">
+      <i class="ti ti-focus-centered" style="color:var(--text-accent)" aria-hidden="true"></i>
+      <p class="a11y-text"><strong>Focus management:</strong> Visible focus ring on all interactive elements using <code>--focus-shadow</code>. Dialog opens focus trap. On close, focus returns to trigger element.</p>
+    </div>
+    <div class="a11y-item">
+      <i class="ti ti-zoom-in" style="color:var(--text-accent)" aria-hidden="true"></i>
+      <p class="a11y-text"><strong>Zoom & resize:</strong> Layout reflows gracefully at 200% browser zoom. No horizontal scroll at 1280px+ viewport. Minimum touch target 44×44px on interactive elements.</p>
+    </div>
+  </div>
+</div>
