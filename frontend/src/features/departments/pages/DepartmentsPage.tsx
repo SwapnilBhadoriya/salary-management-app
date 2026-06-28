@@ -1,9 +1,14 @@
-// Stub — will be fully implemented in the Departments feature phase
+import { PageHeader } from '@/components/shared/PageHeader';
+import { DepartmentList } from '../components/DepartmentList';
+
 export default function DepartmentsPage() {
   return (
     <div className="flex flex-col gap-6 p-6">
-      <h1 className="text-heading-lg text-text-primary">Departments</h1>
-      <p className="text-body text-muted-foreground">Departments coming soon.</p>
+      <PageHeader 
+        title="Departments" 
+        description="Manage the functional groups within your organization." 
+      />
+      <DepartmentList />
     </div>
   );
 }
