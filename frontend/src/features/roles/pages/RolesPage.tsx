@@ -1,9 +1,14 @@
-// Stub — will be fully implemented in the Roles feature phase
+import { PageHeader } from '@/components/shared/PageHeader';
+import { RoleList } from '../components/RoleList';
+
 export default function RolesPage() {
   return (
     <div className="flex flex-col gap-6 p-6">
-      <h1 className="text-heading-lg text-text-primary">Roles</h1>
-      <p className="text-body text-muted-foreground">Roles coming soon.</p>
+      <PageHeader 
+        title="Roles" 
+        description="Manage job titles and employee roles across the organization." 
+      />
+      <RoleList />
     </div>
   );
 }
